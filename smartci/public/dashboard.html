@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SmartCI Dashboard</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.column h2 {
+  text-align: center;
+}
+
+.job {
+  background: #f9f9f9;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border-left: 5px solid #4CAF50;
+}
+
+.stage {
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+.running {
+  color: orange;
+}
+
+.completed {
+  color: green;
+}
+
+.pending {
+  color: gray;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>SmartCI Pipeline Dashboard</h1>
+
+<div class="container">
+
+<div class="column">
+<h2>Queued</h2>
+<div id="queued"></div>
+</div>
+
+<div class="column">
+<h2>In Progress</h2>
+<div id="progress"></div>
+</div>
+
+<div class="column">
+<h2>Completed</h2>
+<div id="completed"></div>
+</div>
+
+</div>
+
+<script>
+
+async function loadJobs() {
+
+  const res = await fetch("http://localhost:7000/jobs");
+  const jobs = await res.json();
+
+  document.getElementById("queued").innerHTML = "";
+  document.getElementById("progress").innerHTML = "";
+  document.getElementById("completed").innerHTML = "";
+
+  jobs.forEach(job => {
+
+    const div = document.createElement("div");
+    div.className = "job";
+
+    let stages = "";
+
+    if(job.stages){
+      job.stages.forEach(stage=>{
+        let className = "pending";
+
+if(stage.status === "RUNNING") className = "running";
+if(stage.status === "COMPLETED") className = "completed";
+
+stages += `<div class="stage ${className}">
+${stage.name}: ${stage.status}
+</div>`;
+      })
+    }
+
+    div.innerHTML =
+      `<b>Job #${job.id}</b><br>
+       Repo: ${job.repo}<br>
+       Branch: ${job.branch}<br>
+       ${stages}`;
+
+    if(job.status === "QUEUED"){
+      document.getElementById("queued").appendChild(div);
+    }
+
+    if(job.status === "IN_PROGRESS"){
+      document.getElementById("progress").appendChild(div);
+    }
+
+    if(job.status === "COMPLETED"){
+      document.getElementById("completed").appendChild(div);
+    }
+
+  });
+
+}
+
+setInterval(loadJobs,1000);
+
+</script>
+
+</body>
+</html>
