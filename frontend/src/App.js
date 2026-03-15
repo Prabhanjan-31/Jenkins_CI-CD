@@ -12,7 +12,7 @@ function App() {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(null);
   
-
+  
   const loadTasks = () => {
     fetch("http://localhost:5000/tasks")
       .then(res => res.json())
