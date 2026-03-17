@@ -54,3 +54,20 @@ exec(`git clone ${repoUrl} .`, { cwd: workspace }, (err) => {
 }
 
 module.exports = scheduleJob;
+
+const WORKSPACE_ROOT = path.join(__dirname, "..", "workspace");
+
+// cleanup old jobs (keep last 5)
+const folders = fs.readdirSync(WORKSPACE_ROOT);
+
+if (folders.length > 5) {
+  const sorted = folders.sort(); // job-1, job-2...
+
+  const toDelete = sorted.slice(0, folders.length - 5);
+
+  toDelete.forEach(folder => {
+    const fullPath = path.join(WORKSPACE_ROOT, folder);
+    fs.rmSync(fullPath, { recursive: true, force: true });
+    console.log("Deleted old job:", folder);
+  });
+}

@@ -12,7 +12,7 @@ describe("Task API", () => {
       password: "1234"
     });
 
-  expect(res.statusCode).toBe(500);
+  expect(res.statusCode).toBe(200);
 });
 
 test("POST /login should authenticate user", async () => {
