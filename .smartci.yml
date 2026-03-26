@@ -17,4 +17,4 @@ test_backend:
 security_scan:
   stage: security
   script:
-    - cd backend && npm audit --audit-level=high || true
+    - cd backend && npm audit --audit-level=high; exit 0
