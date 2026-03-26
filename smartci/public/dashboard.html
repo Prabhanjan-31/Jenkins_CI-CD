@@ -45,6 +45,7 @@ h1 {
 .stage {
   font-size: 13px;
   margin-left: 5px;
+  margin-top: 3px;
 }
 
 .running {
@@ -57,6 +58,10 @@ h1 {
 
 .pending {
   color: gray;
+}
+
+.failed {
+  color: red;
 }
 
 </style>
@@ -110,9 +115,10 @@ async function loadJobs() {
 
 if(stage.status === "RUNNING") className = "running";
 if(stage.status === "COMPLETED") className = "completed";
+if(stage.status === "FAILED") className = "failed";
 
 stages += `<div class="stage ${className}">
-${stage.name}: ${stage.status}
+${stage.name} (${stage.command}): ${stage.status}
 </div>`;
       })
     }
