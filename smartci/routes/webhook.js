@@ -6,14 +6,21 @@ const scheduleJob = require("../scheduler/jobScheduler");
 router.post("/", (req, res) => {
 
   console.log("Webhook received");
-  console.log(req.body);
 
   const repo = req.body.repository?.name;
   const branch = req.body.ref;
 
-  const job = scheduleJob(repo, branch, "commit");
+  // ✅ Send response immediately
+  res.status(200).json({ message: "Webhook received" });
 
-  res.json({ message: "Job scheduled", job });
+  // ✅ Process AFTER response
+  setImmediate(() => {
+    try {
+      scheduleJob(repo, branch, "commit");
+    } catch (err) {
+      console.error("Job scheduling failed:", err);
+    }
+  });
 
 });
 
