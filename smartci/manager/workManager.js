@@ -1,6 +1,37 @@
+const { getAvailableWorker, assignWorker, releaseWorker } = require("../workers/workerPool");
 const { getQueue } = require("../queue/jobQueue");
-const { getAvailableWorker, assignWorker } = require("../workers/workerPool");
 const axios = require("axios");
+
+function executeJob(job, worker) {
+  console.log(`Worker ${worker.id} started executing Job ${job.id}`);
+
+  // Simulate build
+  setTimeout(() => {
+    console.log(`Job ${job.id} → build`);
+
+    // Simulate test
+    setTimeout(() => {
+      console.log(`Job ${job.id} → test`);
+
+      // Simulate scan
+      setTimeout(() => {
+        console.log(`Job ${job.id} → scan`);
+
+        // Finish job
+        job.status = "COMPLETED";
+        console.log(`Job ${job.id} COMPLETED`);
+
+        // Release worker
+        releaseWorker(worker);
+        console.log(`Worker ${worker.id} released`);
+
+      }, 2000);
+
+    }, 2000);
+
+  }, 2000);
+}
+
 
 function startWorkManager() {
   console.log("Work Manager started...");
@@ -61,7 +92,7 @@ function startWorkManager() {
         job.status = "RUNNING";
 
         console.log(`Job ${job.id} assigned to Worker ${worker.id} (${worker.type})`);
-
+        executeJob(job, worker);
         // Remove job from queue
         queue.splice(i, 1);
         i--; // IMPORTANT: adjust index after removal
