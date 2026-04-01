@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const webhookRoute = require("./routes/webhook");
 const jobs = require("./store/jobStore");
+const startWorkManager = require("./manager/workManager");
 
 const app = express();
 
@@ -32,6 +33,8 @@ app.get("/jobs/in-progress", (req, res) => {
 app.get("/jobs/completed", (req, res) => {
   res.json(jobs.filter(j => j.status === "COMPLETED"));
 });
+
+startWorkManager();
 
 app.listen(7000, () => {
   console.log("SmartCI running on port 7000");

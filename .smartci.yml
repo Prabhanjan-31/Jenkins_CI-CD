@@ -7,11 +7,13 @@ build:
   stage: build
   script:
     - cd backend && echo "Build step completed"
+    - sleep 10
 
 install_dependencies:
   stage: install
   script:
     - cd backend && npm install
+    - sleep 10
 
 run_tests:
   stage: test
