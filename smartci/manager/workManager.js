@@ -49,11 +49,34 @@ function monitorJobCompletion(job, worker) {
       console.log(`Releasing worker ${worker.id} for Job ${job.id}`);
       releaseWorker(worker);
       clearInterval(interval);
+      cleanupWorkspaces();
     }
 
   }, 1000);
 }
 
+function cleanupWorkspaces() {
+  const WORKSPACE_ROOT = path.join(__dirname, "..", "workspace");
+
+  if (!fs.existsSync(WORKSPACE_ROOT)) return;
+
+  const folders = fs.readdirSync(WORKSPACE_ROOT);
+
+  if (folders.length <= 5) return;
+
+  const sorted = folders.sort((a, b) => {
+    return fs.statSync(path.join(WORKSPACE_ROOT, a)).mtime -
+           fs.statSync(path.join(WORKSPACE_ROOT, b)).mtime;
+  });
+
+  const toDelete = sorted.slice(0, folders.length - 5);
+
+  toDelete.forEach(folder => {
+    const fullPath = path.join(WORKSPACE_ROOT, folder);
+    fs.rmSync(fullPath, { recursive: true, force: true });
+    console.log("Deleted old workspace:", folder);
+  });
+}
 
 function startWorkManager() {
   console.log("Work Manager started...");
