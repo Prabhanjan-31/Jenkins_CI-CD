@@ -12,7 +12,7 @@ function executeJob(job, worker) {
   console.log(`Worker ${worker.id} started executing Job ${job.id}`);
 
   const repoUrl = job.clone_url;
-  const workspace = path.join(__dirname, "..", "workspace", `job-${job.id}`);
+  const workspace = path.join(__dirname, "..", "workspace", `job-${job.id}`); 
 
   // Clean old workspace
   if (fs.existsSync(workspace)) {
