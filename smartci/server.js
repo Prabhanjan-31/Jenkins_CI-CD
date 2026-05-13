@@ -38,6 +38,51 @@ app.get("/workers", (req, res) => {
   res.json(getAllWorkers());
 });
 
+app.get("/jobs/queued", (req, res) => {
+
+  const queuedJobs = jobs.filter(
+    job => job.status === "QUEUED"
+  );
+
+  res.json(queuedJobs);
+});
+
+app.get("/jobs/waiting", (req, res) => {
+
+  const waitingJobs = jobs.filter(
+    job => job.status === "WAITING_FOR_WORKER"
+  );
+
+  res.json(waitingJobs);
+});
+
+app.get("/jobs/running", (req, res) => {
+
+  const runningJobs = jobs.filter(
+    job => job.status === "RUNNING"
+  );
+
+  res.json(runningJobs);
+});
+
+app.get("/jobs/completed", (req, res) => {
+
+  const completedJobs = jobs.filter(
+    job => job.status === "COMPLETED"
+  );
+
+  res.json(completedJobs);
+});
+
+app.get("/jobs/failed", (req, res) => {
+
+  const failedJobs = jobs.filter(
+    job => job.status === "FAILED"
+  );
+
+  res.json(failedJobs);
+});
+
 startWorkManager();
 initWorkers();
 
