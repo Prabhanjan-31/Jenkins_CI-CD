@@ -1,3 +1,4 @@
+const { PRIORITY_MAP, DEFAULT_PRIORITY } = require("../utils/priorityConfig");
 const jobs = require("../store/jobStore");
 const { addJob } = require("../queue/jobQueue");
 
@@ -7,16 +8,28 @@ function scheduleJob(repo, branch, commit, languages_url, clone_url) {
 
   const id = jobId++;
 
+  const priorityData =
+  PRIORITY_MAP[branch] || DEFAULT_PRIORITY;
+
   const job = {
   id,
   repo,
   branch,
   commit,
+
+  priority: priorityData.value,
+  priorityLabel: priorityData.label,
+
+  createdAt: Date.now(),
+
   status: "QUEUED",
+
   language: null,
   workerId: null,
+
   languages_url,
   clone_url,
+
   stages: []
 };
 
