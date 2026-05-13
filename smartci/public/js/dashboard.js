@@ -1,4 +1,5 @@
 const jobMap = new Map();
+const openLogs = new Set();
 
 function getPriorityClass(label) {
 
@@ -123,9 +124,13 @@ const progress =
       </button>
 
       <div
-        id="logs-${job.id}"
-        class="logs-panel hidden"
-      >
+  id="logs-${job.id}"
+  class="logs-panel ${
+    openLogs.has(job.id)
+      ? ""
+      : "hidden"
+  }"
+>
   `;
 
   job.stages.forEach(stage => {
@@ -371,4 +376,13 @@ function toggleLogs(jobId) {
   }
 
   panel.classList.toggle("hidden");
+
+  if (panel.classList.contains("hidden")) {
+
+    openLogs.delete(jobId);
+
+  } else {
+
+    openLogs.add(jobId);
+  }
 }
