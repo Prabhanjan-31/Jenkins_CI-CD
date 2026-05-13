@@ -8,7 +8,8 @@ router.post("/", (req, res) => {
   console.log("Webhook received");
 
 const repo = req.body.repository?.name;
-const branch = req.body.ref;
+const rawBranch = req.body.ref;
+const branch = rawBranch.replace("refs/heads/", "");
 const languages_url = req.body.repository?.languages_url;
 const clone_url = req.body.repository?.clone_url;
 
