@@ -107,6 +107,8 @@ function runStages(job, repoPath, index) {
   exec(stage.command, { cwd: repoPath }, (err, stdout, stderr) => {
 
     if (err) {
+      stage.logs =
+  stderr || err.message || "";
       stage.status = "FAILED";
       job.status = "FAILED";
       job.completedAt = Date.now();
@@ -115,7 +117,8 @@ function runStages(job, repoPath, index) {
     }
 
     stage.status = "COMPLETED";
-
+    stage.logs = stdout || "";
+    
     runStages(job, repoPath, index + 1);
   });
 }
