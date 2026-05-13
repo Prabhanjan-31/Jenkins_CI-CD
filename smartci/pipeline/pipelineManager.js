@@ -62,7 +62,7 @@ function parseSmartCI(repoPath) {
 ========================= */
 function runPipeline(job, repoPath) {
 
-  job.status = "IN_PROGRESS";
+  job.status = "RUNNING";
 
   const parsedStages = parseSmartCI(repoPath);
 
