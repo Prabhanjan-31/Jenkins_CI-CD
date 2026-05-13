@@ -92,6 +92,7 @@ function runStages(job, repoPath, index) {
 
   if (index >= job.stages.length) {
     job.status = "COMPLETED";
+    job.completedAt = Date.now();
     console.log("Pipeline completed");
     return;
   }
@@ -108,6 +109,7 @@ function runStages(job, repoPath, index) {
     if (err) {
       stage.status = "FAILED";
       job.status = "FAILED";
+      job.completedAt = Date.now();
       console.log("Stage failed:", stage.name);
       return;
     }

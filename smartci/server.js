@@ -1,4 +1,4 @@
-
+const { getAllWorkers } = require("./workers/workerPool");
 const express = require("express");
 const cors = require("cors");
 const { initWorkers } = require("./workers/workerPool");
@@ -32,6 +32,10 @@ app.get("/jobs/in-progress", (req, res) => {
 
 app.get("/jobs/completed", (req, res) => {
   res.json(jobs.filter(j => j.status === "COMPLETED"));
+});
+
+app.get("/workers", (req, res) => {
+  res.json(getAllWorkers());
 });
 
 startWorkManager();

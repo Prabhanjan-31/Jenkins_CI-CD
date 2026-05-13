@@ -150,6 +150,7 @@ function startWorkManager() {
 
         job.workerId = worker.id;
         job.status = "RUNNING";
+        job.startedAt = Date.now();
 
         console.log(`Job ${job.id} assigned to Worker ${worker.id} (${worker.type})`);
         executeJob(job, worker);

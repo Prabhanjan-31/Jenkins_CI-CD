@@ -191,3 +191,53 @@ body {
 .stage-pending {
   color: #94a3b8;
 }
+
+.workers-section {
+  margin-bottom: 30px;
+}
+
+.workers-section h2 {
+  margin-bottom: 15px;
+}
+
+.workers-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.worker-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 15px;
+  border: 1px solid #334155;
+}
+
+.worker-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.worker-status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.worker-busy {
+  background: #dc2626;
+}
+
+.worker-free {
+  background: #15803d;
+}
+
+.worker-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #cbd5e1;
+  font-size: 14px;
+}

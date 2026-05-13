@@ -1,6 +1,6 @@
 build:
   script:
-    - powershell -Command "Start-Sleep -Seconds 15"
+    - powershell -Command "Start-Sleep -Seconds 3"
     - echo "Build step completed"
 
 # install_dependencies:
@@ -10,7 +10,7 @@ build:
 
 run_tests:
   script:
-    - powershell -Command "Start-Sleep -Seconds 15"
+    - powershell -Command "Start-Sleep -Seconds 3"
     - echo "test step completed"
 
 # security_scan:

@@ -22,10 +22,15 @@ function scheduleJob(repo, branch, commit, languages_url, clone_url) {
 
   createdAt: Date.now(),
 
+  queuedAt: Date.now(),
+  startedAt: null,
+  completedAt: null,
+
   status: "QUEUED",
 
   language: null,
   workerId: null,
+
 
   languages_url,
   clone_url,
