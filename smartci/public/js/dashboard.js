@@ -89,6 +89,64 @@ if (job.startedAt) {
   );
 }
 
+const totalStages = job.stages?.length || 0;
+
+const completedStages =
+  job.stages?.filter(
+    s => s.status === "COMPLETED"
+  ).length || 0;
+
+const progress =
+  totalStages === 0
+    ? 0
+    : Math.floor(
+        (completedStages / totalStages) * 100
+      );
+
+
+      let pipelineHTML = "";
+
+if (job.stages) {
+
+  pipelineHTML = `
+    <div class="pipeline-visual">
+  `;
+
+  job.stages.forEach((stage, index) => {
+
+    let stageClass = "pipeline-pending";
+
+    if (stage.status === "COMPLETED") {
+      stageClass = "pipeline-completed";
+    }
+
+    if (stage.status === "RUNNING") {
+      stageClass = "pipeline-running";
+    }
+
+    if (stage.status === "FAILED") {
+      stageClass = "pipeline-failed";
+    }
+
+    pipelineHTML += `
+
+      <div class="pipeline-stage">
+
+        <div class="pipeline-circle ${stageClass}">
+          ${index + 1}
+        </div>
+
+        <div class="pipeline-name">
+          ${stage.name}
+        </div>
+
+      </div>
+    `;
+  });
+
+  pipelineHTML += `</div>`;
+}
+
   card.innerHTML = `
 
     <div class="job-top">
@@ -107,6 +165,23 @@ if (job.startedAt) {
       <div>📊 ${job.status}</div>
       <div>⏱ Runtime: ${runtime}</div>
     </div>
+
+    <div class="progress-wrapper">
+
+  <div class="progress-bar">
+    <div
+      class="progress-fill"
+      style="width: ${progress}%"
+    ></div>
+  </div>
+
+  <div class="progress-text">
+    ${progress}% Complete
+  </div>
+
+</div>
+
+${pipelineHTML}
 
     <div class="stage-list">
       ${stagesHTML}
