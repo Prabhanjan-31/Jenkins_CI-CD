@@ -1,13 +1,16 @@
 build:
   script:
+    - powershell -Command "Start-Sleep -Seconds 3"
     - echo "Build step completed"
 
-install_dependencies:
-  script:
-    - echo "install dependencies step completed"
+# install_dependencies:
+#   script:
+#     - timeout /t 15
+#     - echo "install dependencies step completed"
 
 run_tests:
   script:
+    - powershell -Command "Start-Sleep -Seconds 3"
     - echo "test step completed"
 
 # security_scan:

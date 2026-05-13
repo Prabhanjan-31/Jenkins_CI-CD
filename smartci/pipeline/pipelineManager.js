@@ -62,7 +62,7 @@ function parseSmartCI(repoPath) {
 ========================= */
 function runPipeline(job, repoPath) {
 
-  job.status = "IN_PROGRESS";
+  job.status = "RUNNING";
 
   const parsedStages = parseSmartCI(repoPath);
 
@@ -92,6 +92,7 @@ function runStages(job, repoPath, index) {
 
   if (index >= job.stages.length) {
     job.status = "COMPLETED";
+    job.completedAt = Date.now();
     console.log("Pipeline completed");
     return;
   }
@@ -106,14 +107,18 @@ function runStages(job, repoPath, index) {
   exec(stage.command, { cwd: repoPath }, (err, stdout, stderr) => {
 
     if (err) {
+      stage.logs =
+  stderr || err.message || "";
       stage.status = "FAILED";
       job.status = "FAILED";
+      job.completedAt = Date.now();
       console.log("Stage failed:", stage.name);
       return;
     }
 
     stage.status = "COMPLETED";
-
+    stage.logs = stdout || "";
+    
     runStages(job, repoPath, index + 1);
   });
 }
