@@ -328,3 +328,49 @@ body {
     transform: scale(1);
   }
 }
+.logs-wrapper {
+  margin-top: 16px;
+}
+
+.logs-toggle {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logs-panel {
+  margin-top: 12px;
+  background: #020617;
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.log-stage {
+  margin-bottom: 14px;
+}
+
+.log-stage-title {
+  color: #38bdf8;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.log-content {
+  background: black;
+  color: #22c55e;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: pre-wrap;
+}

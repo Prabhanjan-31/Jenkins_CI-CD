@@ -105,6 +105,56 @@ const progress =
 
 
       let pipelineHTML = "";
+      let logsHTML = "";
+
+      if (job.stages) {
+
+  logsHTML = `
+
+    <div class="logs-wrapper">
+
+      <button
+        class="logs-toggle"
+        onclick="toggleLogs(${job.id})"
+      >
+
+        ▼ View Logs
+
+      </button>
+
+      <div
+        id="logs-${job.id}"
+        class="logs-panel hidden"
+      >
+  `;
+
+  job.stages.forEach(stage => {
+
+    logsHTML += `
+
+      <div class="log-stage">
+
+        <div class="log-stage-title">
+
+          ${stage.name}
+
+        </div>
+
+        <pre class="log-content">
+
+${stage.logs || "No logs yet"}
+
+        </pre>
+
+      </div>
+    `;
+  });
+
+  logsHTML += `
+      </div>
+    </div>
+  `;
+}
 
 if (job.stages) {
 
@@ -182,6 +232,7 @@ if (job.stages) {
 </div>
 
 ${pipelineHTML}
+${logsHTML}
 
     <div class="stage-list">
       ${stagesHTML}
@@ -309,3 +360,15 @@ setInterval(() => {
   loadWorkers();
 
 }, 1000);
+
+function toggleLogs(jobId) {
+
+  const panel =
+    document.getElementById(`logs-${jobId}`);
+
+  if (!panel) {
+    return;
+  }
+
+  panel.classList.toggle("hidden");
+}
