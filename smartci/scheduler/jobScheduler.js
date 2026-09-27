@@ -18,7 +18,7 @@ function scheduleJob(repo, branch, commit, languages_url, clone_url) {
   commit,
 
   priority: priorityData.value,
-  priorityLabel: priorityData.label,
+  priorityLabel: priorityData.label, 
 
   createdAt: Date.now(),
 
